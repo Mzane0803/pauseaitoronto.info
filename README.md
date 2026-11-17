@@ -2,7 +2,7 @@
 
 The website of PauseAI Toronto. Plain HTML, CSS and JavaScript: no build step, no framework, no tracking.
 
-**Live preview:** https://mzane0803.github.io/pauseaitoronto.info/
+**Live site:** https://pauseaitoronto.info (once the DNS records below are in place)
 
 ## How it goes live
 
