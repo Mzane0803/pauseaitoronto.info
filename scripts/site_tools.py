@@ -4,15 +4,16 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 import hashlib
 from html.parser import HTMLParser
+import io
 import json
 from pathlib import Path, PurePosixPath
 import re
 import shutil
 import subprocess
 import sys
+import tarfile
 import time
 from urllib.parse import unquote, urlsplit
-from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -162,9 +163,22 @@ def check():
     print(f"Site checks passed: {len(pages)} pages, {len(files)} public files, internal links/anchors, CSS assets, page JSON and JavaScript syntax.", flush=True)
 
 
-def manifest(commit):
-    names = git("ls-tree", "-r", "--name-only", "-z", commit).decode().split("\0")
-    return {"commit": commit, "files": {name: hashlib.sha256(git("show", f"{commit}:{name}")).hexdigest() for name in names if name and is_public(name)}}
+def committed_files(commit):
+    # Read Git once. Spawning a Git process per image was slow on this Mac.
+    with tarfile.open(fileobj=io.BytesIO(git("archive", "--format=tar", commit))) as archive:
+        result = {}
+        for member in archive.getmembers():
+            if not (is_public(member.name) or member.name in {"CNAME", ".nojekyll"}):
+                continue
+            if not member.isfile():
+                raise ValueError("Only regular files can be published: " + member.name)
+            result[member.name] = archive.extractfile(member).read()
+        return result
+
+
+def manifest(commit, contents=None):
+    contents = committed_files(commit) if contents is None else contents
+    return {"commit": commit, "files": {name: hashlib.sha256(body).hexdigest() for name, body in sorted(contents.items()) if is_public(name)}}
 
 
 def package():
@@ -172,7 +186,8 @@ def package():
     if git("status", "--porcelain", "--untracked-files=normal").strip():
         raise ValueError("Package only a clean, committed checkout.")
     commit = git("rev-parse", "HEAD").decode().strip()
-    release = manifest(commit)
+    contents = committed_files(commit)
+    release = manifest(commit, contents)
     destination = ROOT / "_site"
     if destination.is_symlink():
         raise ValueError("_site must not be a symbolic link")
@@ -182,22 +197,31 @@ def package():
     for name in [*release["files"], "CNAME", ".nojekyll"]:
         path = destination / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(git("show", f"{commit}:{name}"))
+        path.write_bytes(contents[name])
     (destination / "release.json").write_text(json.dumps(release, indent=2) + "\n")
     print(f"Packaged {len(release['files'])} public files for {commit[:12]} in _site/.")
 
 
-def verify(commit):
+def verify(commit, base_url=None):
     commit = git("rev-parse", "--verify", commit + "^{commit}").decode().strip()
     expected = manifest(commit)
     stamp = str(time.time_ns())
+    base_url = (base_url or f"https://{DOMAIN}").rstrip("/")
+    hostname = urlsplit(base_url).hostname
+    if urlsplit(base_url).scheme != "https" or not hostname:
+        raise ValueError("Verification requires an HTTPS website URL.")
+    curl = shutil.which("curl") or "/usr/bin/curl"
 
     def fetch(name):
-        request = Request(f"https://{DOMAIN}/{name}?release={stamp}", headers={"Cache-Control": "no-cache", "User-Agent": "PauseAI-Toronto-release-check"})
-        with urlopen(request, timeout=20) as response:
-            if urlsplit(response.url).hostname != DOMAIN:
-                raise ValueError("Domain redirected away from " + DOMAIN + ": " + response.url)
-            return response.read()
+        # curl uses the operating system's certificate trust and works consistently
+        # across the two Python installations on this Mac. TLS is always verified.
+        result = subprocess.run([curl, "--fail", "--silent", "--show-error", "--location", "--max-time", "20", "--header", "Cache-Control: no-cache", "--write-out", "\\nRELEASE_FINAL_URL:%{url_effective}", f"{base_url}/{name}?release={stamp}"], capture_output=True)
+        if result.returncode:
+            raise ValueError(f"Cannot fetch {name}: " + result.stderr.decode(errors="replace").strip())
+        body, final_url = result.stdout.rsplit(b"\nRELEASE_FINAL_URL:", 1)
+        if urlsplit(final_url.decode()).hostname != hostname:
+            raise ValueError("Domain redirected away from " + hostname + ": " + final_url.decode())
+        return body
 
     release = json.loads(fetch("release.json"))
     if release != expected:
@@ -210,16 +234,17 @@ def verify(commit):
 
     with ThreadPoolExecutor(max_workers=6) as pool:
         list(pool.map(verify_file, expected["files"].items()))
-    print(f"PUBLIC SITE VERIFIED: https://{DOMAIN}/ serves {commit[:12]} ({len(expected['files'])} files match committed source).")
+    print(f"PUBLIC SITE VERIFIED: {base_url}/ serves {commit[:12]} ({len(expected['files'])} files match committed source).")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("check", "package", "verify"))
     parser.add_argument("--commit", default="HEAD")
+    parser.add_argument("--url", help="Verify a Cloudflare preview URL instead of the custom domain")
     args = parser.parse_args()
     try:
-        {"check": check, "package": package, "verify": lambda: verify(args.commit)}[args.action]()
+        {"check": check, "package": package, "verify": lambda: verify(args.commit, args.url)}[args.action]()
     except (ValueError, OSError, subprocess.CalledProcessError) as error:
         print(str(error), file=sys.stderr)
         return 1

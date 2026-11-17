@@ -1,37 +1,60 @@
 # pauseaitoronto.info
 
-The website of PauseAI Toronto. Plain HTML, CSS and JavaScript: no build step, no framework, no tracking.
+PauseAI Toronto’s website: plain HTML, CSS and JavaScript. No framework, application build or visitor tracking.
 
-**Site:** https://pauseaitoronto.info
+- Main website: https://pauseaitoronto.info
+- Alternate address: https://www.pauseaitoronto.info
+- Cloudflare address: https://pauseaitoronto.pages.dev
+- Hosting and DNS target: Cloudflare’s free plan. GoDaddy remains the registrar.
+- Source: this repository, branch main. Hosting targets are in deploy-config.json.
 
-## How it goes live
+## Publish a change
 
-This repository is published for free with GitHub Pages. A push to `main` runs checks, packages the public files, and publishes only if those checks pass. No framework, npm install, hosting token or build service is needed. The workflow is `.github/workflows/pages.yml`; GitHub supplies its own short-lived deployment token.
-
-Normal updates take roughly 1–3 minutes after a push; GitHub queues can take longer. DNS is a one-time setup, not part of future deployments. The domain must point to GitHub and have a valid HTTPS certificate before public verification can pass.
-
-## How to make a change
-
-For Codex, Claude or anyone using this checkout:
+After editing and reviewing the files, run this one command from this folder:
 
 ```sh
-./preview                       # http://localhost:8000; Ctrl+C stops it
-./deploy --check                 # check only; no publishing
-./deploy "Update event details"  # check, commit, push, wait, verify
-./deploy --status                # recent releases + exact public-site verification
+./deploy "Describe the change"
 ```
 
-Run from this folder on `main`. Local requirements: Git, Python 3.9+, Node.js (syntax checks only) and the GitHub CLI (`gh`) signed into an account with repository write access. They are already installed on Muhammad's Mac; the helper also finds `~/.local/bin/gh`. A new computer needs these tools and `gh auth login`; GitHub's web editor needs none of them. Set a real local Git identity before committing from a new clone.
+It checks the site, safely commits recognised changes, packages only committed public files, pushes main, waits for GitHub’s independent checks, publishes to Cloudflare Pages, and verifies the exact release over HTTPS on all three addresses. It never force-pushes or silently merges remote changes. A failed check prevents publication. It refuses another branch, merge conflicts, unknown files or a remote main with commits missing locally.
 
-The deploy command includes all recognised changed website/maintenance files. Review `git diff` first. It refuses unknown files, a non-main branch, merge conflicts, or a remote main with commits missing locally. It never force-pushes or silently merges. If remote main advanced, save/commit your local work, run `git pull --ff-only`, resolve any issue, then retry.
+The command uses the existing GitHub CLI and Wrangler logins. No hosting token is stored in this public repository or GitHub. It uses pinned Wrangler 4.160.0 from the local installation or cache, and falls back to npx on a new machine. The Cloudflare project already exists: do not use Wrangler’s --force flag.
 
-GitHub web editing also works: open a file, click the pencil, edit, and **Commit changes** to main. [Actions](https://github.com/Mzane0803/pauseaitoronto.info/actions/workflows/pages.yml) shows checks and deployment. Pull requests run the same checks without publishing. Publishing still requires your authorization when an agent is doing the work.
+A GitHub web edit or plain push runs checks but does not publish by itself. Run the deploy command afterward, even if the checkout is already clean. This keeps publishing under the user’s control and avoids a new persistent CI credential. If another computer or github.com changed main, run git pull --ff-only before editing; if it refuses, preserve local work and resolve the divergence before publishing.
 
-Checks cover the nine HTML pages, local assets, internal anchors, CSS file references, sitemap XML, embedded JSON, riding-button/data consistency, donation-link format and JavaScript syntax. They do not prove rendering, person/photo consent, policy claims, external-site availability or a successful payment. Preview desktop/mobile for visual changes. Do not make a test donation.
+Local tools: Git, Python 3.9+, Node.js, npm/npx, curl and gh. These are installed on Muhammad’s Mac; helpers find the common Mac binary locations even from a non-login shell. A new computer also needs gh auth login and npx wrangler@4.160.0 login. The existing Cloudflare account needs permission to deploy to the project. Do not put credentials in the checkout.
 
-Only root HTML, approved static assets, robots/sitemap/favicon, CNAME and .nojekyll are packaged. Maintenance scripts, Git history, README and scratch files are not web pages. `release.json` exposes only the deployed commit and public-file checksums. Public verification downloads that manifest and every public file over HTTPS, compares them with the requested Git commit, and fails if the domain redirects elsewhere.
+## Preview or check separately
 
-If the command stops after pushing, GitHub keeps deploying. Use `./deploy --status`; do not repeat edits or force-push to restart it. A successful workflow means GitHub accepted the release. Only **PUBLIC SITE VERIFIED** means this machine checked the domain's exact contents. A failed release check leaves the previous deployment in place; a failed public verification can also mean DNS/HTTPS/CDN delay, so inspect the error before reverting.
+For a local preview, run:
+
+```sh
+./preview
+```
+
+Open http://localhost:8000. This command keeps running; press **Ctrl+C** to stop it before using the same terminal for another command. The preview stays on your computer. Do not paste preview and deploy commands as a sequence.
+
+To check without committing or publishing, run:
+
+```sh
+./deploy --check
+```
+
+To verify whether the current Git commit is live on Cloudflare and both custom domains, run:
+
+```sh
+./deploy --status
+```
+
+Checks cover the nine HTML pages, local files and anchors, CSS asset references, sitemap XML, embedded JSON, riding-button/data consistency, donation URL format and JavaScript syntax. They do not prove rendering, factual accuracy, consent, external services or successful payments. Inspect desktop and mobile for visual changes. Never make a test donation.
+
+Only root HTML, approved assets, robots/sitemap/favicon, CNAME and .nojekyll are packaged. Maintenance scripts, instructions, Git history, credentials and scratch files are excluded. release.json contains only the deployed commit and checksums of public website files. Verification downloads the manifest and every public file over normal certificate-validated HTTPS, then compares them with that commit. Git is read once per release, so images do not each start another Git process.
+
+## If a deployment stops
+
+A commit or push already completed remains in place. A Cloudflare upload already completed also remains in place. Run ./deploy --status to inspect the actual served files. If publication did not finish, rerun the same deploy command; a clean checkout can be published again without a new commit. GitHub checks are at https://github.com/Mzane0803/pauseaitoronto.info/actions/workflows/pages.yml.
+
+Checks passing, Cloudflare accepting an upload, and public-domain verification are different states. Only PUBLIC SITE VERIFIED confirms the exact files at the printed URL. A failed public check after upload can indicate propagation or a service issue; inspect the error before reverting.
 
 To undo a content commit without rewriting history:
 
@@ -40,9 +63,7 @@ git revert COMMIT_TO_UNDO
 ./deploy "Revert event update"
 ```
 
-For several changes, revert each intended commit newest first. Inspect the inverse diff for a commit that changes hosting/deployment tooling. A failed workflow can be re-run from its Actions page after fixing the cause, or use **Run workflow** on main to republish the current source. No new commit is needed for a transient GitHub failure.
-
-The preview stays on your computer. Publishing starts only when changes reach main (or the main workflow is manually run).
+For several changes, revert the intended commits newest first. Inspect the inverse diff carefully before reverting deployment tooling. Never force-push.
 
 ## What is where
 
@@ -72,18 +93,17 @@ The header menu and the footer are repeated in each of the five pages. If you ch
 | WhatsApp, Luma, Instagram, X links | Search for the old link across the five pages and replace it. |
 | Colours and fonts | Top of `assets/site.css` |
 
-## Handing the site to someone else
+## Ownership and domain settings
 
-- **Give someone edit access:** Settings → Collaborators → Add people.
-- **Move it to an organisation or another account:** Settings → General → Transfer ownership. Then re-enter the custom domain under Settings → Pages.
+Repository collaborators can edit source. A deployer also needs access to the Cloudflare project. Do not transfer the repository, registrar or Cloudflare account as part of routine content work.
 
-## The domain
+Cloudflare account: 6e5a10d09e822840e4978458bdc36e79. Pages project: pauseaitoronto. Zone: pauseaitoronto.info. Assigned authoritative nameservers: daphne.ns.cloudflare.com and peter.ns.cloudflare.com. The registrar’s delegation and Cloudflare active status must be verified before declaring a cutover complete. These settings are a one-time setup; future content deploys need no DNS changes.
 
-To serve the site at pauseaitoronto.info instead of the github.io address:
+The apex and www CNAME records both point to pauseaitoronto.pages.dev. Both hostnames must also be attached to the Pages project under Custom domains. Preserve the Google MX record, root SPF, nested dc-bdaca08905._spfm TXT record, Google DKIM, DMARC, verification TXT and _domainconnect CNAME. Mail records remain DNS-only. The original GoDaddy zone was exported before the move; the automated scan missed the nested SPF record, which was added explicitly.
 
-1. In this repository: Settings → Pages → Source → **GitHub Actions**. Keep Custom domain set to `pauseaitoronto.info`. With Actions, the Pages setting controls the domain; CNAME is kept as a checked reference, not as the active configuration.
-2. At GoDaddy, remove website forwarding to pauseai.ca. Set the four `@` A records to `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`. Set `www` CNAME to `mzane0803.github.io`. Preserve MX/TXT and other email records. Do not point the domain to any other host. [GitHub's domain instructions](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
-3. Back in Settings → Pages, tick **Enforce HTTPS** once the certificate is available. DNS can take up to 24 hours to propagate; certificate availability may take longer. Then run `./deploy --status` and open both the apex and www addresses.
+The old GitHub Pages deployment remains a fallback snapshot, but its publishing job has been removed from the workflow. CNAME is retained as a checked domain reference. Cloudflare supplies HTTPS. Do not change mail routing, buy anything, or move to another host during normal website updates.
+
+Official references: https://developers.cloudflare.com/pages/configuration/custom-domains/ and https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/.
 
 ## Credits
 

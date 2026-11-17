@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 _site/
+.wrangler/
 .env
 .env.*
 work/
