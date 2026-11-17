@@ -2,19 +2,47 @@
 
 The website of PauseAI Toronto. Plain HTML, CSS and JavaScript: no build step, no framework, no tracking.
 
-**Live site:** https://pauseaitoronto.info (once the DNS records below are in place)
+**Site:** https://pauseaitoronto.info
 
 ## How it goes live
 
-This repository is published with GitHub Pages. Every change to the `main` branch is on the live site about a minute later. There is nothing to install or run.
+This repository is published for free with GitHub Pages. A push to `main` runs checks, packages the public files, and publishes only if those checks pass. No framework, npm install, hosting token or build service is needed. The workflow is `.github/workflows/pages.yml`; GitHub supplies its own short-lived deployment token.
+
+Normal updates take roughly 1–3 minutes after a push; GitHub queues can take longer. DNS is a one-time setup, not part of future deployments. The domain must point to GitHub and have a valid HTTPS certificate before public verification can pass.
 
 ## How to make a change
 
-1. Open the file on github.com and click the pencil icon.
-2. Edit, then "Commit changes".
-3. Wait a minute and reload the site.
+For Codex, Claude or anyone using this checkout:
 
-To preview on your own computer first: download the repository, then run `python3 -m http.server` in its folder and open http://localhost:8000.
+```sh
+./preview                       # http://localhost:8000; Ctrl+C stops it
+./deploy --check                 # check only; no publishing
+./deploy "Update event details"  # check, commit, push, wait, verify
+./deploy --status                # recent releases + exact public-site verification
+```
+
+Run from this folder on `main`. Local requirements: Git, Python 3.9+, Node.js (syntax checks only) and the GitHub CLI (`gh`) signed into an account with repository write access. They are already installed on Muhammad's Mac; the helper also finds `~/.local/bin/gh`. A new computer needs these tools and `gh auth login`; GitHub's web editor needs none of them. Set a real local Git identity before committing from a new clone.
+
+The deploy command includes all recognised changed website/maintenance files. Review `git diff` first. It refuses unknown files, a non-main branch, merge conflicts, or a remote main with commits missing locally. It never force-pushes or silently merges. If remote main advanced, save/commit your local work, run `git pull --ff-only`, resolve any issue, then retry.
+
+GitHub web editing also works: open a file, click the pencil, edit, and **Commit changes** to main. [Actions](https://github.com/Mzane0803/pauseaitoronto.info/actions/workflows/pages.yml) shows checks and deployment. Pull requests run the same checks without publishing. Publishing still requires your authorization when an agent is doing the work.
+
+Checks cover the nine HTML pages, local assets, internal anchors, CSS file references, sitemap XML, embedded JSON, riding-button/data consistency, donation-link format and JavaScript syntax. They do not prove rendering, person/photo consent, policy claims, external-site availability or a successful payment. Preview desktop/mobile for visual changes. Do not make a test donation.
+
+Only root HTML, approved static assets, robots/sitemap/favicon, CNAME and .nojekyll are packaged. Maintenance scripts, Git history, README and scratch files are not web pages. `release.json` exposes only the deployed commit and public-file checksums. Public verification downloads that manifest and every public file over HTTPS, compares them with the requested Git commit, and fails if the domain redirects elsewhere.
+
+If the command stops after pushing, GitHub keeps deploying. Use `./deploy --status`; do not repeat edits or force-push to restart it. A successful workflow means GitHub accepted the release. Only **PUBLIC SITE VERIFIED** means this machine checked the domain's exact contents. A failed release check leaves the previous deployment in place; a failed public verification can also mean DNS/HTTPS/CDN delay, so inspect the error before reverting.
+
+To undo a content commit without rewriting history:
+
+```sh
+git revert COMMIT_TO_UNDO
+./deploy "Revert event update"
+```
+
+For several changes, revert each intended commit newest first. Inspect the inverse diff for a commit that changes hosting/deployment tooling. A failed workflow can be re-run from its Actions page after fixing the cause, or use **Run workflow** on main to republish the current source. No new commit is needed for a transient GitHub failure.
+
+The preview stays on your computer. Publishing starts only when changes reach main (or the main workflow is manually run).
 
 ## What is where
 
@@ -53,9 +81,9 @@ The header menu and the footer are repeated in each of the five pages. If you ch
 
 To serve the site at pauseaitoronto.info instead of the github.io address:
 
-1. In this repository: Settings → Pages → Custom domain → `pauseaitoronto.info` → Save.
-2. At the domain registrar: remove the forwarding to pauseai.ca, then add the DNS records GitHub lists at https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
-3. Back in Settings → Pages, tick "Enforce HTTPS" once it becomes available.
+1. In this repository: Settings → Pages → Source → **GitHub Actions**. Keep Custom domain set to `pauseaitoronto.info`. With Actions, the Pages setting controls the domain; CNAME is kept as a checked reference, not as the active configuration.
+2. At GoDaddy, remove website forwarding to pauseai.ca. Set the four `@` A records to `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`. Set `www` CNAME to `mzane0803.github.io`. Preserve MX/TXT and other email records. Do not point the domain to any other host. [GitHub's domain instructions](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
+3. Back in Settings → Pages, tick **Enforce HTTPS** once the certificate is available. DNS can take up to 24 hours to propagate; certificate availability may take longer. Then run `./deploy --status` and open both the apex and www addresses.
 
 ## Credits
 
