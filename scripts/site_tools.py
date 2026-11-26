@@ -18,7 +18,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 DOMAIN = "pauseaitoronto.info"
-PAGES = ("index.html", "write-to-your-mp.html", "donate.html", "plan.html", "governance.html", "media.html")
+PAGES = ("index.html", "write-to-your-mp.html", "donate.html", "plan.html", "governance.html", "media.html", "campus.html")
 REQUIRED = (*PAGES, "404.html", "events.html", "team.html", "shop.html", "CNAME", ".nojekyll", "robots.txt", "sitemap.xml")
 ASSET_TYPES = {".css", ".js", ".json", ".svg", ".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".ico", ".woff", ".woff2", ".ttf", ".otf", ".mp4", ".webm"}
 

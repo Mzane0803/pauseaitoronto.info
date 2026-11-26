@@ -46,7 +46,7 @@ To verify whether the current Git commit is live on Cloudflare and both custom d
 ./deploy --status
 ```
 
-Checks cover the ten HTML pages, local files and anchors, CSS asset references, sitemap XML, embedded JSON, riding-button/data consistency, donation URL format and JavaScript syntax. They do not prove rendering, factual accuracy, consent, external services or successful payments. Inspect desktop and mobile for visual changes. Never make a test donation.
+Checks cover the eleven HTML pages, local files and anchors, CSS asset references, sitemap XML, embedded JSON, riding-button/data consistency, donation URL format and JavaScript syntax. They do not prove rendering, factual accuracy, consent, external services or successful payments. Inspect desktop and mobile for visual changes. Never make a test donation.
 
 Only root HTML, approved assets, robots/sitemap/favicon, CNAME and .nojekyll are packaged. Maintenance scripts, instructions, Git history, credentials and scratch files are excluded. release.json contains only the deployed commit and checksums of public website files. Verification downloads the manifest and every public file over normal certificate-validated HTTPS, then compares them with that commit. Git is read once per release, so images do not each start another Git process.
 
@@ -73,13 +73,14 @@ For several changes, revert the intended commits newest first. Inspect the inver
 | Take action (write to your MP) | `write-to-your-mp.html` |
 | Donate | `donate.html` |
 | Our plan | `plan.html` |
-| Media (photos, video, press kit) | `media.html` |
+| Media (photos, video, press contact) | `media.html` |
+| Campus (placeholder: “Coming soon”) | `campus.html` |
 | Governance | `governance.html` |
 | Styles, scripts, fonts, images | `assets/` |
 
 `events.html`, `team.html` and `shop.html` only redirect to the matching part of the home page.
 
-The header menu and the footer are repeated in each of the six pages. If you change one, change all six.
+The header menu and the footer are repeated in each of the seven pages. If you change one, change all seven. Menu order: Take action, Events, Media, Campus, Team, Shop.
 
 | To change | Where |
 |---|---|
@@ -90,10 +91,9 @@ The header menu and the footer are repeated in each of the six pages. If you cha
 | e-Transfer address, major-gifts email, Manifund link | `donate.html` |
 | MPs and ridings (snapshot of 16 Nov 2026) | `write-to-your-mp.html`: the list of buttons and the JSON inside `<script id="riding-data">`. The letter text is in `assets/mp.js`. |
 | Photo wall on the home page | `index.html`, the two `wall-track` rows: colour photographs on top, black-and-white below. Each list appears twice so the loop has no gap. Images are `assets/img/w-*.jpg`, 680 px tall, any width. |
-| Media page photos, video and stills | `media.html`. Gallery thumbnails reuse the wall images; the large versions are in `assets/img/media/` (1920 px on the long edge). Videos are 720p copies in `assets/video/`, each under 12 MB; their poster frames are `assets/img/media/v-*.jpg`. The photo viewer is `assets/media.js`. |
-| Press contact, press kit wording, spokespeople | `media.html`. The wording is copied from the home page and `plan.html`; change it there first. |
+| Media page photos and video | `media.html`. Kept deliberately short: one wide photograph, then pairs. Add a photo by adding an `<li>` to the `shots` list (`wide` spans the page, `land` is a landscape half, `tall` is a portrait half; put portraits in pairs). Thumbnails reuse the wall images; the large versions are in `assets/img/media/` (1920 px on the long edge). Videos are 720p copies in `assets/video/`; every file must stay under Cloudflare Pages’ 25 MiB per-file limit. Poster frames are `assets/img/media/v-*.jpg`. The photo viewer is `assets/media.js`. The page uses Public Sans only. |
 | Shop products and prices (US$, snapshot of 16 Nov 2026) | `index.html`, the `<ul class="rack">` list. Checkout happens on the PauseAI shop. |
-| WhatsApp, Luma, Instagram, X links | Search for the old link across the six pages and replace it. |
+| WhatsApp, Luma, Instagram, X links | Search for the old link across the seven pages and replace it. |
 | Colours and fonts | Top of `assets/site.css` |
 
 ## Ownership and domain settings
@@ -111,8 +111,8 @@ Official references: https://developers.cloudflare.com/pages/configuration/custo
 ## Credits
 
 - Fonts: Public Sans, Playfair Display, Newsreader, Archivo. All SIL Open Font License, self-hosted in `assets/fonts`.
-- Photos on the home page wall and the media page: photographs of the Toronto AI Treaty March, 14 November 2026. Published credit wording is still to be confirmed with the photographer. Files are resized only; camera metadata is removed.
-- Video and video stills on the media page, and the older march stills on the plan and donate pages: from the march footage. Published credit wording is still to be confirmed with the videographer.
+- Photos on the home page wall and the media page: David Akio Grant (https://davidakiogrant.com/), Toronto AI Treaty March, 14 November 2026. Files are resized only; camera metadata is removed.
+- Video on the media page, and the older march stills on the plan and donate pages: Danny Choi.
 - Music in the 52-second film: “Emergent” by Scott Buckley (www.scottbuckley.com.au), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Excerpted, faded and mixed with recorded sound. Keep this credit wherever that film is shown.
 - The September 2026 event photo is by Georgia Berg.
 - Shop images: the PauseAI shop (pauseai-shop.fourthwall.com).

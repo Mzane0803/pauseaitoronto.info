@@ -11,7 +11,7 @@
   } else films.forEach(dress);
 
   // Quiet fade as frames and sections scroll into view. Without IntersectionObserver everything simply shows.
-  const rise = [...document.querySelectorAll('.frames li, .stills li, .clips li, .reel-meta, .media-quote, .kit, .kit-team')];
+  const rise = [...document.querySelectorAll('.shots li:not(.wide), .films li')];
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
