@@ -758,21 +758,17 @@ html:has(.lightbox[open]){overflow:hidden}
   .note{opacity:1;width:auto;padding:8px 0 0;background:none;box-shadow:none;font-size:12.5px}
 }
 
-/* take action page: type only. A numbered list of large titles on hairlines, no pictures, no cards */
-.ta-list{list-style:none;margin:0 var(--gutter);padding:0;border-top:1px solid var(--ink)}
-.ta-list li+li{border-top:1px solid var(--hair)}
-.ta{display:grid;grid-template-columns:clamp(36px,4.4vw,72px) minmax(0,6fr) minmax(0,4fr);column-gap:clamp(20px,3vw,48px);align-items:baseline;padding:clamp(44px,6vw,88px) 0 clamp(48px,6.4vw,96px);font-family:var(--pro);color:var(--ink)}
-.ta-n{font-weight:600;font-size:13px;letter-spacing:.06em;font-variant-numeric:tabular-nums;color:var(--ink-2)}
-.ta-t{font-weight:500;font-size:clamp(2.3rem,1.2rem + 3.6vw,4.5rem);line-height:.98;letter-spacing:-.045em;text-wrap:balance;transition:color .2s}
-.ta-side p{font-size:1.08rem;line-height:1.5;color:var(--ink-2);max-width:40ch}
-.ta-go{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-weight:600;font-size:1.02rem}
-.ta-go svg{width:20px;height:20px;transition:transform .25s cubic-bezier(.3,.7,.2,1)}
-.ta:hover .ta-t,.ta:focus-visible .ta-t{color:var(--deep)}
-.ta:hover .ta-go svg,.ta:focus-visible .ta-go svg{transform:translateX(6px)}
-@media (max-width:860px){
-  .ta{grid-template-columns:1fr;row-gap:14px;padding:36px 0 40px}
-  .ta-go{margin-top:14px}
-}
+/* take action page: one narrow column of plain text. Small labels, hairlines, underlined links, nothing else */
+.plain-head{padding:clamp(150px,17vw,220px) var(--gutter) clamp(52px,6.5vw,92px);text-align:center}
+.plain-head h1{font-family:var(--pro);font-weight:500;font-size:clamp(2.2rem,1.5rem + 2.4vw,3.4rem);line-height:1.08;letter-spacing:-.035em}
+.plain-col{width:min(580px,100% - 2*var(--gutter));margin:0 auto;padding-bottom:clamp(96px,12vw,176px);font-family:var(--pro)}
+.plain-col section+section{margin-top:clamp(30px,3.4vw,40px);padding-top:clamp(30px,3.4vw,40px);border-top:1px solid var(--hair)}
+.plain-col h2{font-weight:500;font-size:12.5px;line-height:1.3;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
+.plain-col p,.plain-col li{margin-top:12px;font-size:clamp(1.14rem,1.05rem + .35vw,1.3rem);line-height:1.5;color:var(--ink)}
+.plain-col ul{list-style:none;margin:0;padding:0}
+.plain-col li+li{margin-top:6px}
+.plain-col a,.pro .plain-col p a{font-weight:400;color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em;text-decoration-color:rgba(23,19,14,.35);transition:color .15s,text-decoration-color .15s}
+.plain-col a:hover,.pro .plain-col p a:hover{color:var(--deep);text-decoration-color:currentColor}
 /* phone: keep the hero drawing clear of the floating logo and Menu button */
 @media (max-width:860px){
   .hero-art{top:78px;height:170px}
