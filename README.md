@@ -1,9 +1,9 @@
-# pauseaitoronto.info
+# pauseai.to
 
 PauseAI Toronto’s website: plain HTML, CSS and JavaScript. No framework, application build or visitor tracking.
 
-- Main website: https://pauseaitoronto.info
-- Alternate address: https://www.pauseaitoronto.info
+- Main website: https://pauseai.to
+- Alternate address: https://www.pauseai.to
 - Cloudflare address: https://pauseaitoronto.pages.dev
 - Hosting and DNS target: Cloudflare’s free plan. GoDaddy remains the registrar.
 - Source: this repository, branch main. Hosting targets are in deploy-config.json.
@@ -111,6 +111,17 @@ The apex and www CNAME records both point to pauseaitoronto.pages.dev. Both host
 The old GitHub Pages deployment remains a fallback snapshot, but its publishing job has been removed from the workflow. CNAME is retained as a checked domain reference. Cloudflare supplies HTTPS. Do not change mail routing, buy anything, or move to another host during normal website updates.
 
 Official references: https://developers.cloudflare.com/pages/configuration/custom-domains/ and https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/.
+
+## Moving to pauseai.to (prepared, not done)
+
+This branch points every page address, the sitemap, `CNAME`, the checker and the deploy targets at pauseai.to. Email addresses stay on pauseaitoronto.info. Do not merge or deploy it until all of these are true:
+
+1. pauseai.to is registered and added to the same Cloudflare account as its own zone, with the registrar's nameservers switched to the ones Cloudflare assigns to that zone (they may differ from the ones above).
+2. pauseai.to and www.pauseai.to are attached to the Pages project `pauseaitoronto` under Custom domains, and both show as active with HTTPS.
+3. pauseaitoronto.info and www.pauseaitoronto.info stay attached until the first deploy from this branch is verified, then are replaced by a permanent (301) redirect to the same path on pauseai.to, set in Cloudflare. Keep that domain registered: printed signs, QR codes, Stripe, Luma and old links point at it.
+4. The pauseaitoronto.info mail records (Google MX, SPF, DKIM, DMARC) are left exactly as they are. team@ and donate@ keep working there.
+
+`./deploy` verifies the public addresses in `deploy-config.json`, so it fails safely if steps 1 and 2 are not finished.
 
 ## Credits
 

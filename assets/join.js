@@ -70,7 +70,7 @@
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...a, interests: a.interests.join(', '), _subject: `Join PauseAI Toronto: ${a.name}`, source: 'pauseaitoronto.info/join' }),
+        body: JSON.stringify({ ...a, interests: a.interests.join(', '), _subject: `Join PauseAI Toronto: ${a.name}`, source: 'pauseai.to/join' }),
       });
       if (!res.ok) throw new Error(String(res.status));
       finish(a, false);

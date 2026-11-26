@@ -17,7 +17,7 @@ from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-DOMAIN = "pauseaitoronto.info"
+DOMAIN = "pauseai.to"
 PAGES = ("index.html", "about.html", "campaigns.html", "write-to-your-mp.html", "join.html", "donate.html", "media.html", "campus.html")
 REQUIRED = (*PAGES, "404.html", "events.html", "team.html", "shop.html", "plan.html", "governance.html", "CNAME", ".nojekyll", "robots.txt", "sitemap.xml")
 ASSET_TYPES = {".css", ".js", ".json", ".svg", ".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".ico", ".woff", ".woff2", ".ttf", ".otf", ".mp4", ".webm"}
