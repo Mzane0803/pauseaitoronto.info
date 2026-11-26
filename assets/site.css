@@ -441,7 +441,7 @@ button{font:inherit;color:inherit}
 
 .blk{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,80px);align-items:start;margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 clamp(48px,6vw,88px);border-top:1px solid var(--ink)}
 .blk p{margin-top:16px;font-size:1.06rem;line-height:1.55;max-width:50ch;color:var(--ink-2)}
-.blk .lead{margin-top:20px;font-weight:500;font-size:clamp(1.5rem,1.1rem + 1.4vw,2.25rem);line-height:1.15;letter-spacing:-.035em;color:var(--ink);max-width:22ch}
+.blk .lead{margin-top:22px;font-weight:400;font-size:clamp(1.25rem,1.1rem + .5vw,1.5rem);line-height:1.35;letter-spacing:-.015em;color:var(--ink);max-width:30ch}
 .blk-img img,.rec img{width:100%;border-radius:10px}
 .blk-img img{aspect-ratio:16/11;object-fit:cover;object-position:50% 35%}
 .chain-wrap{margin:0 var(--gutter);padding:0 0 var(--gap)}
@@ -758,20 +758,20 @@ html:has(.lightbox[open]){overflow:hidden}
   .note{opacity:1;width:auto;padding:8px 0 0;background:none;box-shadow:none;font-size:12.5px}
 }
 
-/* take action page: plain editorial rows, text beside a photograph, no cards */
-.act-row{align-items:center;padding-top:clamp(40px,5vw,72px);padding-bottom:clamp(40px,5vw,72px)}
-.act-row+.act-row{border-top:1px solid var(--hair)}
-.act-row .h-sec{margin-top:10px;font-size:clamp(2.1rem,1.5rem + 2vw,3.2rem);line-height:1.02}
-.act-row .h-sec a:hover{color:var(--deep)}
-.act-row .blk-text p:not(.rec-date){font-size:1.1rem;max-width:44ch}
-.act-row .actions{margin-top:28px}
-.act-row .blk-img img{aspect-ratio:3/2;object-position:50% 50%}
-@media (min-width:861px){
-  .act-rev{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
-  .act-rev .blk-img{order:-1}
-}
+/* take action page: type only. A numbered list of large titles on hairlines, no pictures, no cards */
+.ta-list{list-style:none;margin:0 var(--gutter);padding:0;border-top:1px solid var(--ink)}
+.ta-list li+li{border-top:1px solid var(--hair)}
+.ta{display:grid;grid-template-columns:clamp(36px,4.4vw,72px) minmax(0,6fr) minmax(0,4fr);column-gap:clamp(20px,3vw,48px);align-items:baseline;padding:clamp(44px,6vw,88px) 0 clamp(48px,6.4vw,96px);font-family:var(--pro);color:var(--ink)}
+.ta-n{font-weight:600;font-size:13px;letter-spacing:.06em;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.ta-t{font-weight:500;font-size:clamp(2.3rem,1.2rem + 3.6vw,4.5rem);line-height:.98;letter-spacing:-.045em;text-wrap:balance;transition:color .2s}
+.ta-side p{font-size:1.08rem;line-height:1.5;color:var(--ink-2);max-width:40ch}
+.ta-go{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-weight:600;font-size:1.02rem}
+.ta-go svg{width:20px;height:20px;transition:transform .25s cubic-bezier(.3,.7,.2,1)}
+.ta:hover .ta-t,.ta:focus-visible .ta-t{color:var(--deep)}
+.ta:hover .ta-go svg,.ta:focus-visible .ta-go svg{transform:translateX(6px)}
 @media (max-width:860px){
-  .act-row .blk-img{order:-1}
+  .ta{grid-template-columns:1fr;row-gap:14px;padding:36px 0 40px}
+  .ta-go{margin-top:14px}
 }
 /* phone: keep the hero drawing clear of the floating logo and Menu button */
 @media (max-width:860px){
