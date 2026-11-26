@@ -83,6 +83,8 @@ For several changes, revert the intended commits newest first. Inspect the inver
 
 The header menu and the footer are repeated in each of the eight pages. If you change one, change all eight.
 
+Stylesheet and script links carry a fingerprint (`assets/site.css?v=…`) so returning visitors get the new file immediately instead of a copy their browser saved for up to four hours. After editing anything in `assets/*.css` or `assets/*.js`, run `python3 scripts/site_tools.py stamp`; the check fails until you do.
+
 The MP page looks up the riding for a postal code with Open North's Represent API, in the visitor's browser. The MP's name always comes from the list in the page, because Represent's member list lags by-elections; its email address is used only when it names the same MP. The join form opens a pre-filled email to the team unless `data-endpoint` on the form in `join.html` is set to a service that accepts a JSON POST. Three MPs elected in 2026 by-elections (University—Rosedale, Scarborough Southwest, Beaches—East York) carry an `email` in `riding-data`, copied from their House of Commons pages on 25 November 2026, because Represent still lists their predecessors; an `email` in the list is always used ahead of Represent's.
 
 | To change | Where |

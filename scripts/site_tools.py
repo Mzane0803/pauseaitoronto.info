@@ -34,6 +34,31 @@ def git(*args):
     return subprocess.check_output(["git", *args], cwd=ROOT)
 
 
+STAMPED = re.compile(r'((?:href|src)=")(assets/[^"?#]+\.(?:css|js))(?:\?v=[0-9a-f]*)?(")')
+
+
+def stamp(source):
+    # Browsers keep stylesheets and scripts for hours. A fingerprint in the address
+    # makes every visitor fetch the new file as soon as its contents change.
+    def fingerprint(match):
+        asset = ROOT / match.group(2)
+        if not asset.is_file():
+            return match.group(0)
+        return f"{match.group(1)}{match.group(2)}?v={hashlib.sha256(asset.read_bytes()).hexdigest()[:10]}{match.group(3)}"
+    return STAMPED.sub(fingerprint, source)
+
+
+def restamp():
+    changed = []
+    for path in sorted(ROOT.glob("*.html")):
+        text = path.read_text()
+        fresh = stamp(text)
+        if fresh != text:
+            path.write_text(fresh)
+            changed.append(path.name)
+    print("Updated asset fingerprints in: " + ", ".join(changed) if changed else "Asset fingerprints are already current.")
+
+
 class Page(HTMLParser):
     def __init__(self, source):
         super().__init__(convert_charrefs=True)
@@ -84,6 +109,9 @@ def check():
         if path.is_symlink() or any(parent.is_symlink() for parent in path.parents if parent != ROOT):
             errors.append("symbolic links cannot be published: " + name)
     pages = {name: Page(path.read_text()) for name, path in files.items() if path.suffix == ".html"}
+    for name, path in files.items():
+        if path.suffix == ".html" and stamp(path.read_text()) != path.read_text():
+            errors.append(name + ": stylesheet or script fingerprint is out of date; run python3 scripts/site_tools.py stamp")
 
     def reference(source, ref):
         url = urlsplit(ref.strip())
@@ -239,12 +267,12 @@ def verify(commit, base_url=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=("check", "package", "verify"))
+    parser.add_argument("action", choices=("check", "package", "verify", "stamp"))
     parser.add_argument("--commit", default="HEAD")
     parser.add_argument("--url", help="Verify a Cloudflare preview URL instead of the custom domain")
     args = parser.parse_args()
     try:
-        {"check": check, "package": package, "verify": lambda: verify(args.commit, args.url)}[args.action]()
+        {"check": check, "package": package, "verify": lambda: verify(args.commit, args.url), "stamp": restamp}[args.action]()
     except (ValueError, OSError, subprocess.CalledProcessError) as error:
         print(str(error), file=sys.stderr)
         return 1
