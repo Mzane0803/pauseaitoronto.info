@@ -606,3 +606,162 @@ html:has(.lightbox[open]){overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   .js .rise{opacity:1}
 }
+
+/* v9: about page (section links, team cards), campaigns, the write-to-your-MP card, join form */
+.subnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(22px,2.6vw,32px)}
+.subnav a{padding:10px 16px;border-radius:999px;background:rgba(23,19,14,.06);font-size:14.5px;font-weight:600;line-height:1;transition:background-color .15s,color .15s}
+.subnav a:hover{background:var(--ink);color:var(--paper)}
+
+.crew-sec{margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
+.crew{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(36px,4vw,56px) clamp(20px,2.6vw,36px);margin-top:clamp(28px,3.4vw,48px);align-items:start}
+.crew-card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:rgba(23,19,14,.06)}
+.crew-card h3{margin-top:18px;font-weight:600;font-size:1.3rem;line-height:1.2;letter-spacing:-.02em}
+.crew-role{margin-top:4px;font-size:1rem;line-height:1.4;color:var(--ink-2)}
+.crew-bio{margin-top:12px;font-size:1rem;line-height:1.55}
+.crew-card .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.crew-join{display:flex;flex-direction:column;justify-content:flex-end;aspect-ratio:1;padding:clamp(18px,2vw,26px);border-radius:10px;background:var(--orange)}
+.crew-join h3{margin-top:0}
+.crew-join p{margin-top:8px;font-size:1rem;line-height:1.45}
+.crew-join .pill{align-self:flex-start;margin-top:16px}
+.plan .crew{grid-template-columns:repeat(3,minmax(0,210px));margin-top:0}
+.gov-head{margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 clamp(28px,3.4vw,48px);border-top:1px solid var(--ink)}
+.gov-head p{margin-top:16px;font-size:1.06rem;line-height:1.55;max-width:54ch;color:var(--ink-2)}
+.pro .gov-head~.plan{border-top-color:var(--hair)}
+.pro .plan>h3.label{font-weight:700;font-size:12.5px;line-height:1.2;letter-spacing:.08em}
+.crumb{display:inline-block;margin-bottom:18px;font-size:14.5px;font-weight:600;color:var(--ink-2)}
+.crumb::before{content:"← "}
+.crumb:hover{color:var(--ink)}
+.pro .gov-head+.plan{padding-bottom:clamp(48px,6vw,88px)}
+
+/* campaigns */
+.camps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2vw,28px);margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
+.camp{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--hair);border-radius:20px;overflow:hidden;box-shadow:0 22px 50px -36px rgba(23,19,14,.4);transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.camp:hover{transform:translateY(-3px);box-shadow:0 30px 60px -36px rgba(23,19,14,.5)}
+.camp-media{aspect-ratio:16/9;overflow:hidden;background:var(--ink)}
+.camp-media img{width:100%;height:100%;object-fit:cover}
+.camp-type{display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,2.6vw,36px);color:var(--paper)}
+.camp-type b{font-weight:600;font-size:clamp(2rem,1.2rem + 3.2vw,3.6rem);line-height:.98;letter-spacing:-.04em;max-width:11ch}
+.camp-type span{margin-top:12px;font-size:14px;color:rgba(251,248,238,.7)}
+.camp-body{display:flex;flex-direction:column;flex:1;padding:clamp(22px,2.6vw,36px)}
+.camp-by{font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.camp h2{margin-top:10px;font-weight:600;font-size:clamp(1.6rem,1.3rem + 1vw,2.2rem);line-height:1.1;letter-spacing:-.03em}
+.camp h2 a::after{content:"";position:absolute;inset:0}
+.camp p{margin-top:12px;font-size:1.04rem;line-height:1.55;color:var(--ink-2);max-width:46ch}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.tags li{padding:7px 12px;border-radius:999px;background:rgba(23,19,14,.06);font-size:13.5px;font-weight:600;line-height:1}
+.camp .actions{margin-top:auto;padding-top:24px}
+.camp:hover .pill-line{background:var(--ink);color:var(--paper)}
+.camp:hover .pill-orange{background:var(--deep);color:#fff}
+.camp h2 a:focus-visible{outline:none}
+.camp:has(h2 a:focus-visible){outline:2px solid var(--ink);outline-offset:3px}
+
+/* write to your MP: one card, three steps */
+.act{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,80px);align-items:start;margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
+.act-copy h2{font-weight:500;font-size:clamp(1.5rem,1.1rem + 1.4vw,2.25rem);line-height:1.15;letter-spacing:-.035em;max-width:20ch}
+.act-copy p{margin-top:16px;font-size:1.06rem;line-height:1.55;max-width:48ch;color:var(--ink-2)}
+.act-copy figure{margin-top:clamp(24px,3vw,40px)}
+.act-copy img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:10px}
+.act-copy figcaption{margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+.act-card{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:0 22px 50px -36px rgba(23,19,14,.4);padding:clamp(22px,3vw,44px)}
+.stepper{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:clamp(24px,3vw,36px)}
+.stepper li{position:relative;padding-top:14px;border-top:3px solid rgba(23,19,14,.12);font-size:13.5px;font-weight:600;line-height:1.25;color:var(--ink-2);transition:border-color .2s,color .2s}
+.stepper b{font-weight:700;margin-right:6px}
+.stepper li.is-done{border-top-color:var(--orange);color:var(--ink)}
+.stepper li[aria-current="step"]{border-top-color:var(--ink);color:var(--ink)}
+.act-step h2{font-weight:600;font-size:clamp(1.6rem,1.3rem + 1vw,2.2rem);line-height:1.1;letter-spacing:-.03em}
+.act-step>p{margin-top:12px;font-size:1.04rem;line-height:1.55;color:var(--ink-2);max-width:52ch}
+.act-step .actions{margin-top:22px}
+.act-step .status{display:block;margin-top:14px;min-height:1.4em}
+.status.is-bad{color:#A32A12}
+.postal{display:flex;gap:10px;margin-top:22px}
+.postal input{flex:1;min-width:0;text-transform:uppercase;font-weight:600;letter-spacing:.06em}
+.postal input::placeholder{font-weight:400;letter-spacing:.04em}
+.postal .pill{flex:none}
+.linkish{all:unset;cursor:pointer;font-weight:600;color:var(--deep);border-radius:4px}
+.linkish:hover{color:var(--ink)}
+.linkish:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.act-alt{margin-top:18px;font-size:.98rem;color:var(--ink-2)}
+.list-box{margin-top:22px}
+.act-card .ridings{max-height:372px;overflow:auto}
+.act-card .fine{margin-top:18px}
+.mp-who{display:flex;justify-content:space-between;align-items:flex-start;gap:12px 20px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--hair)}
+.mp-who .mp-riding{margin-bottom:8px}
+.mp-who p:not(.mp-riding){margin-top:8px;font-size:.98rem;line-height:1.5;color:var(--ink-2);max-width:44ch}
+.act-card .vacant{margin-top:18px;font-size:1.04rem;line-height:1.55}
+.letter-form{margin-top:22px}
+.act-card .letter{margin-top:0}
+.act-card .letter textarea{min-height:360px;padding:16px;border-color:rgba(23,19,14,.3);border-radius:12px;background:#fff;font-size:16px;line-height:1.55}
+.send-to{margin-top:16px!important;padding:14px 16px;border-radius:12px;background:rgba(23,19,14,.05);font-size:1rem!important;color:var(--ink)!important;overflow-wrap:anywhere}
+.send-to b{font-weight:600}
+.send-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:22px}
+.send-grid .pill{padding:16px 12px}
+.send-grid .wide{grid-column:1 / -1;padding:19px 12px;font-size:17px}
+.pro .pill-orange:hover{background:var(--deep);color:#fff}
+.band .pill-orange:hover{background:var(--paper);color:var(--ink)}
+
+/* forms: join page, and the fields in the MP card */
+.field{display:block;margin-top:18px}
+.field>span,.picks legend{display:block;margin-bottom:7px;padding:0;font-size:14.5px;font-weight:600;line-height:1.3}
+.field small,.picks legend small{font-weight:400;font-size:inherit;color:var(--ink-2)}
+.field input,.field textarea,.postal input{display:block;width:100%;padding:14px 16px;font:400 16.5px/1.3 var(--pro);color:var(--ink);background:#fff;border:1px solid rgba(23,19,14,.3);border-radius:12px;-webkit-appearance:none;appearance:none;transition:border-color .15s,box-shadow .15s}
+.field textarea{min-height:120px;line-height:1.5;resize:vertical}
+.field input::placeholder,.field textarea::placeholder,.postal input::placeholder{color:rgba(106,97,87,.75)}
+.field input:focus,.field textarea:focus,.postal input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(255,148,22,.45)}
+.field-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+.picks{margin:22px 0 0;padding:0;border:0;min-width:0}
+.picks div{display:flex;flex-wrap:wrap;gap:8px}
+.pick{position:relative;cursor:pointer}
+.pick input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.pick span{display:block;padding:11px 16px;border:1.5px solid rgba(23,19,14,.22);border-radius:999px;font-size:15px;font-weight:600;line-height:1;transition:background-color .15s,color .15s,border-color .15s}
+.pick:hover span{border-color:var(--ink)}
+.pick input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.pick input:focus-visible+span{outline:2px solid var(--ink);outline-offset:3px}
+.check{display:flex;gap:12px;align-items:flex-start;margin-top:22px;font-size:1rem;line-height:1.45;cursor:pointer}
+.check input{flex:none;width:20px;height:20px;margin:2px 0 0;accent-color:var(--ink)}
+.trap{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+.join{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,80px);align-items:start;margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
+.join-copy h2{font-weight:500;font-size:clamp(1.5rem,1.1rem + 1.4vw,2.25rem);line-height:1.15;letter-spacing:-.035em;max-width:20ch}
+.join-copy>p{margin-top:16px;font-size:1.06rem;line-height:1.55;max-width:46ch;color:var(--ink-2)}
+.nexts{margin-top:clamp(24px,3vw,40px);border-top:1px solid var(--hair)}
+.nexts li{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--hair)}
+.nexts b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper);font-weight:700;font-size:15px;flex:none}
+.nexts h3{font-weight:600;font-size:1.12rem;line-height:1.25;letter-spacing:-.015em;padding-top:5px}
+.nexts p{margin-top:4px;font-size:.98rem;line-height:1.5;color:var(--ink-2);max-width:40ch}
+.join-photo{margin-top:clamp(24px,3vw,40px)}
+.join-photo img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:10px}
+.join-photo figcaption{margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+.join-card{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:0 22px 50px -36px rgba(23,19,14,.4);padding:clamp(22px,3vw,44px)}
+.join-card h2{font-weight:600;font-size:clamp(1.6rem,1.3rem + 1vw,2.2rem);line-height:1.1;letter-spacing:-.03em}
+.join-card h2+p{margin-top:10px;font-size:1.02rem;line-height:1.55;color:var(--ink-2);max-width:46ch}
+.join-go{display:flex;width:100%;margin-top:26px;padding:19px;font-size:17px}
+.join-card .fine{margin-top:14px}
+.join-card .status{display:block;margin-top:12px}
+.join-done .actions{margin-top:22px}
+.join-done pre{margin:18px 0 0;padding:16px;border-radius:12px;background:rgba(23,19,14,.05);font:400 14.5px/1.55 var(--pro);white-space:pre-wrap;overflow-wrap:anywhere}
+
+@media (max-width:1040px){
+  .crew{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .act,.join{grid-template-columns:minmax(0,1fr)}
+  .act-card,.join-card{order:-1}
+}
+@media (max-width:860px){
+  .camps{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:700px){
+  .crew{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .crew-sec>.crew{grid-template-columns:minmax(0,1fr);gap:28px}
+  .crew-sec .crew-card:not(.crew-join){display:grid;grid-template-columns:92px minmax(0,1fr);column-gap:18px;align-items:start}
+  .crew-sec .crew-card:not(.crew-join) img{grid-row:1 / span 4}
+  .crew-sec .crew-card:not(.crew-join) h3{margin-top:0}
+  .crew-sec .crew-card:not(.crew-join)>*:not(img){grid-column:2}
+  .crew-join{aspect-ratio:auto}
+  .plan .crew{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stepper li span{display:block;margin-top:2px}
+  .postal{flex-direction:column}
+  .postal .pill{padding:17px}
+}
+@media (max-width:520px){
+  .field-row{grid-template-columns:minmax(0,1fr)}
+  .send-grid{grid-template-columns:minmax(0,1fr)}
+}

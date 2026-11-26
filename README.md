@@ -70,23 +70,26 @@ For several changes, revert the intended commits newest first. Inspect the inver
 | Page | File |
 |---|---|
 | Home | `index.html` |
-| Take action (write to your MP) | `write-to-your-mp.html` |
+| About (plan, track record, team, governance) | `about.html` |
+| Campaigns | `campaigns.html` |
+| Write to your MP | `write-to-your-mp.html` |
+| Join us (form) | `join.html` |
 | Donate | `donate.html` |
-| Our plan | `plan.html` |
-| Media (photos, video, press contact) | `media.html` |
-| Campus (placeholder: “Coming soon”) | `campus.html` |
-| Governance | `governance.html` |
+| Media | `media.html` |
+| Campus | `campus.html` |
 | Styles, scripts, fonts, images | `assets/` |
 
-`events.html`, `team.html` and `shop.html` only redirect to the matching part of the home page.
+`events.html` and `shop.html` redirect to the matching part of the home page. `plan.html`, `governance.html` and `team.html` redirect to the matching part of `about.html`.
 
-The header menu and the footer are repeated in each of the seven pages. If you change one, change all seven. Menu order: Take action, Events, Media, Campus, Team, Shop.
+The header menu and the footer are repeated in each of the eight pages. If you change one, change all eight.
+
+The MP page looks up the riding for a postal code with Open North's Represent API, in the visitor's browser. The MP's name always comes from the list in the page, because Represent's member list lags by-elections; its email address is used only when it names the same MP. The join form opens a pre-filled email to the team unless `data-endpoint` on the form in `join.html` is set to a service that accepts a JSON POST.
 
 | To change | Where |
 |---|---|
-| Team bios, photos, links | `index.html`, the section with `id="team"`. Photos are square JPEGs in `assets/img/`. |
-| Board and donation policies | `governance.html` |
-| Theory of change, milestones, track record | `plan.html` |
+| Team bios, photos, links | `about.html`, the section with `id="team"`. Photos are square JPEGs in `assets/img/`. |
+| Board and donation policies | `about.html`, from `id="governance"` down |
+| Theory of change, milestones, track record | `about.html` |
 | Donation amounts and checkout links | `donate.html`, the JSON inside `<script id="give-data">`. Each monthly amount has its own Stripe payment link; all one-off amounts share one link. The links are created in the Stripe dashboard under Payment Links. |
 | e-Transfer address, major-gifts email, Manifund link | `donate.html` |
 | MPs and ridings (snapshot of 16 Nov 2026) | `write-to-your-mp.html`: the list of buttons and the JSON inside `<script id="riding-data">`. The letter text is in `assets/mp.js`. |
