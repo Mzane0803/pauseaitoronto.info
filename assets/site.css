@@ -554,22 +554,6 @@ button{font:inherit;color:inherit}
 .films{--g:clamp(8px,.9vw,12px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,3.4vw,44px) var(--g);margin-top:clamp(24px,3vw,40px)}
 .film video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:var(--ink)}
 .film figcaption{margin-top:12px;font-size:15px;font-weight:600;line-height:1.45}
-.credits{margin-top:clamp(32px,4vw,52px)}
-.credits summary{display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 10px;border-radius:5px;background:rgba(23,19,14,.06);font-size:13px;font-weight:500;line-height:1;color:var(--ink-2);cursor:pointer;list-style:none;user-select:none;transition:background-color .15s,color .15s}
-.credits summary::-webkit-details-marker{display:none}
-.credits summary:hover,.credits[open] summary{background:rgba(23,19,14,.1);color:var(--ink)}
-.credits summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.credits-mark{position:relative;width:9px;height:9px;flex:none}
-.credits-mark::before,.credits-mark::after{content:"";position:absolute;left:0;top:4px;width:9px;height:1.5px;background:currentColor;transition:transform .2s}
-.credits-mark::after{transform:rotate(90deg)}
-.credits[open] .credits-mark::after{transform:rotate(0)}
-.credits dl{margin:12px 0 0;max-width:520px;font-size:13px;line-height:1.5}
-.credits dl>div{display:grid;grid-template-columns:132px minmax(0,1fr);gap:2px 16px;padding:8px 0;border-bottom:1px solid var(--hair)}
-.credits dl>div:first-child{border-top:1px solid var(--hair)}
-.credits dt{color:var(--ink-2)}
-.credits dd{margin:0}
-.credits a{font-weight:600}
-.credits a:hover{color:var(--deep)}
 .media-press p a{color:var(--paper)}
 .media-press p a:hover{color:var(--orange)}
 .soon{min-height:56svh}
@@ -596,7 +580,6 @@ html:has(.lightbox[open]){overflow:hidden}
 @media (max-width:700px){
   .shots .land{grid-column:1 / -1}
   .films{grid-template-columns:minmax(0,1fr)}
-  .credits dl>div{grid-template-columns:minmax(0,1fr)}
   .lb-stage{padding:68px 0 6px}
   .lb-stage img{max-height:calc(100dvh - 190px)}
   .lb-bar{min-height:104px;align-content:start;padding-right:132px}
@@ -764,4 +747,38 @@ html:has(.lightbox[open]){overflow:hidden}
 @media (max-width:520px){
   .field-row{grid-template-columns:minmax(0,1fr)}
   .send-grid{grid-template-columns:minmax(0,1fr)}
+}
+
+/* credit toggles: a small grey "i" that opens a quiet card. Uses the native popover, so no script. */
+.info{display:inline-grid;place-items:center;width:20px;height:20px;padding:0;border:0;border-radius:50%;background:none;color:rgba(23,19,14,.3);cursor:pointer;transition:color .2s}
+.info svg{width:16px;height:16px}
+.info:hover,.info:focus-visible{color:var(--ink)}
+.info:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.has-credit{position:relative}
+.info-photo{position:absolute;right:8px;bottom:8px;color:rgba(255,255,255,.72);filter:drop-shadow(0 0 3px rgba(0,0,0,.45))}
+.info-photo:hover,.info-photo:focus-visible{color:#fff}
+.info-photo:focus-visible{outline-color:#fff}
+.credits-line{margin-top:clamp(28px,3.4vw,44px)}
+.info-text{display:inline-flex;width:auto;height:auto;gap:6px;border-radius:4px;font:400 13px/1 var(--pro);letter-spacing:0}
+.note{width:min(400px,calc(100vw - 32px));margin:auto;padding:24px;border:0;border-radius:6px;background:#FDFDFB;color:var(--ink);font-family:var(--pro);font-size:15px;line-height:1.5;text-align:left;box-shadow:0 30px 70px -30px rgba(0,0,0,.5);opacity:0;transition:opacity .16s ease,display .16s allow-discrete,overlay .16s allow-discrete}
+.note:popover-open{opacity:1}
+@starting-style{.note:popover-open{opacity:0}}
+.note::backdrop{background:rgba(15,12,9,.5)}
+.note-wide{width:min(520px,calc(100vw - 32px))}
+.note-label{margin:0 28px 10px 0!important;font-size:12px!important;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)!important;max-width:none!important}
+.note-name{margin:0!important;font-size:1.25rem!important;font-weight:500;letter-spacing:-.02em;line-height:1.25!important;color:var(--ink)!important}
+.note-more{margin:6px 0 0!important;font-size:14px!important;line-height:1.45!important;color:var(--ink-2)!important}
+.note a,.pro .note a{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--hair);text-underline-offset:3px}
+.note a:hover,.pro .note a:hover{color:var(--deep)}
+.note-x{position:absolute;top:14px;right:14px;display:grid;place-items:center;width:26px;height:26px;padding:0;border:1px solid var(--hair);border-radius:50%;background:none;color:var(--ink-2);font:400 17px/1 var(--pro);cursor:pointer}
+.note-x:hover{color:var(--ink);border-color:var(--ink)}
+.note dl{margin:0;font-size:14px}
+.note dl>div{display:grid;grid-template-columns:128px minmax(0,1fr);gap:2px 14px;padding:9px 0;border-top:1px solid var(--hair)}
+.note dt{color:var(--ink-2)}
+.note dd{margin:0}
+@media (max-width:520px){.note dl>div{grid-template-columns:minmax(0,1fr)}}
+/* browsers without popover: the credit simply shows as text under the photo */
+@supports not selector(:popover-open){
+  .info,.note-x{display:none}
+  .note{opacity:1;width:auto;padding:8px 0 0;background:none;box-shadow:none;font-size:12.5px}
 }
