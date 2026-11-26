@@ -591,9 +591,6 @@ html:has(.lightbox[open]){overflow:hidden}
 }
 
 /* v9: about page (section links, team cards), campaigns, the write-to-your-MP card, join form */
-.subnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(22px,2.6vw,32px)}
-.subnav a{padding:10px 16px;border-radius:999px;background:rgba(23,19,14,.06);font-size:14.5px;font-weight:600;line-height:1;transition:background-color .15s,color .15s}
-.subnav a:hover{background:var(--ink);color:var(--paper)}
 
 .crew-sec{margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
 .crew{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(36px,4vw,56px) clamp(20px,2.6vw,36px);margin-top:clamp(28px,3.4vw,48px);align-items:start}
@@ -767,7 +764,6 @@ html:has(.lightbox[open]){overflow:hidden}
 .act-row .h-sec{margin-top:10px;font-size:clamp(2.1rem,1.5rem + 2vw,3.2rem);line-height:1.02}
 .act-row .h-sec a:hover{color:var(--deep)}
 .act-row .blk-text p:not(.rec-date){font-size:1.1rem;max-width:44ch}
-.act-row .act-facts{margin-top:10px!important;font-size:.95rem!important;color:var(--ink-2)}
 .act-row .actions{margin-top:28px}
 .act-row .blk-img img{aspect-ratio:3/2;object-position:50% 50%}
 @media (min-width:861px){
