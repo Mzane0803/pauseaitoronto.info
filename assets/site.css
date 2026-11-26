@@ -550,14 +550,22 @@ button{font:inherit;color:inherit}
 .shot:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .shot img{transition:opacity .25s}
 .shot:hover img{opacity:.9}
-.films-sec{margin:var(--gap) var(--gutter) 0;padding:clamp(24px,2.6vw,36px) 0 clamp(56px,7vw,104px);border-top:1px solid var(--ink)}
+.films-sec{margin:var(--gap) var(--gutter) 0;padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
 .films{--g:clamp(8px,.9vw,12px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,3.4vw,44px) var(--g);margin-top:clamp(24px,3vw,40px)}
 .film video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:var(--ink)}
-.film figcaption{margin-top:12px;font-size:15px;line-height:1.45;color:var(--ink-2)}
-.film b{font-weight:600;color:var(--ink);margin-right:6px}
-.credits{margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
-.credits dl{margin:clamp(16px,2vw,24px) 0 0;max-width:760px}
-.credits dl>div{display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:4px 24px;padding:13px 0;border-bottom:1px solid var(--hair);font-size:1rem;line-height:1.45}
+.film figcaption{margin-top:12px;font-size:15px;font-weight:600;line-height:1.45}
+.credits{margin-top:clamp(32px,4vw,52px)}
+.credits summary{display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 10px;border-radius:5px;background:rgba(23,19,14,.06);font-size:13px;font-weight:500;line-height:1;color:var(--ink-2);cursor:pointer;list-style:none;user-select:none;transition:background-color .15s,color .15s}
+.credits summary::-webkit-details-marker{display:none}
+.credits summary:hover,.credits[open] summary{background:rgba(23,19,14,.1);color:var(--ink)}
+.credits summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.credits-mark{position:relative;width:9px;height:9px;flex:none}
+.credits-mark::before,.credits-mark::after{content:"";position:absolute;left:0;top:4px;width:9px;height:1.5px;background:currentColor;transition:transform .2s}
+.credits-mark::after{transform:rotate(90deg)}
+.credits[open] .credits-mark::after{transform:rotate(0)}
+.credits dl{margin:12px 0 0;max-width:520px;font-size:13px;line-height:1.5}
+.credits dl>div{display:grid;grid-template-columns:132px minmax(0,1fr);gap:2px 16px;padding:8px 0;border-bottom:1px solid var(--hair)}
+.credits dl>div:first-child{border-top:1px solid var(--hair)}
 .credits dt{color:var(--ink-2)}
 .credits dd{margin:0}
 .credits a{font-weight:600}
