@@ -4,6 +4,7 @@
   // The Toronto list in the page (House of Commons, 16 November 2026) is the authority for who the MP is.
   // Open North's Represent API is used for two things only: postal code -> riding, and the MP's email address
   // when its record names the same person as our list. Its member list lags by-elections, so it never overrides ours.
+  // Where our list carries an email (taken from the MP's House of Commons page), that address is used and Represent is not asked.
   const $ = id => document.getElementById(id);
   const data = JSON.parse($('riding-data').textContent);
   const REPRESENT = 'https://represent.opennorth.ca';
@@ -109,7 +110,7 @@
     senderPostal = pretty(code);
     const local = byName.get(norm(riding));
     if (local) {
-      choose({ ...local, listed: true, email: sameMP(rep, local) ? rep.email : '' });
+      choose({ ...local, listed: true, email: local.email || (sameMP(rep, local) ? rep.email : '') });
     } else if (rep) {
       choose({ riding, mp: rep.name, url: rep.url || COMMONS, email: rep.email || '', listed: false, slug: null });
     } else {
@@ -143,13 +144,13 @@
 
   buttons.forEach(b => b.addEventListener('click', () => {
     const r = bySlug.get(b.dataset.slug);
-    choose({ ...r, listed: true, email: '' });
+    choose({ ...r, listed: true, email: r.email || '' });
     findEmail(r);
   }));
 
   // A riding chosen from the list has no email yet. Ask Represent for it, and keep it only if it names the same MP.
   async function findEmail(r) {
-    if (!r.mp) return;
+    if (!r.mp || r.email) return;
     const out = await getJSON(`${REPRESENT}/representatives/house-of-commons/?district_name=${encodeURIComponent(r.formerly || r.riding)}`);
     const rep = out.body && (out.body.objects || [])[0];
     if (cur && cur.slug === r.slug && sameMP(rep, r)) {
@@ -281,7 +282,7 @@ ${where || '[Your address and postal code]'}`;
   try { initial = new URL(location.href).searchParams.get('riding'); } catch (e) { /* ignore */ }
   if (initial && bySlug.has(initial)) {
     const r = bySlug.get(initial);
-    choose({ ...r, listed: true, email: '' }, false);
+    choose({ ...r, listed: true, email: r.email || '' }, false);
     findEmail(r);
   }
 })();
