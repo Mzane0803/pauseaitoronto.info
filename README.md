@@ -113,7 +113,8 @@ Official references: https://developers.cloudflare.com/pages/configuration/custo
 - Fonts: Public Sans, Playfair Display, Newsreader, Archivo. All SIL Open Font License, self-hosted in `assets/fonts`.
 - Photos on the home page wall and the media page: David Akio Grant (https://davidakiogrant.com/), Toronto AI Treaty March, 14 November 2026. Files are resized only; camera metadata is removed.
 - Video on the media page, and the older march stills on the plan and donate pages: Danny Choi.
-- Music in the 52-second film: “Emergent” by Scott Buckley (www.scottbuckley.com.au), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Excerpted, faded and mixed with recorded sound. Keep this credit wherever that film is shown.
+- Interviews on the media page: Daniel Austin with marchers at Queen’s Park.
+- Music in the recap film (`assets/video/story-52s.mp4`): “Emergent” by Scott Buckley (www.scottbuckley.com.au), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Excerpted, faded and mixed with recorded sound. Keep this credit wherever that film is shown.
 - The September 2026 event photo is by Georgia Berg.
 - Shop images: the PauseAI shop (pauseai-shop.fourthwall.com).
 - Footer icons are plain line drawings, not the companies' logos.

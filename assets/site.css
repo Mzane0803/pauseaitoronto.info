@@ -550,12 +550,18 @@ button{font:inherit;color:inherit}
 .shot:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .shot img{transition:opacity .25s}
 .shot:hover img{opacity:.9}
-.films-sec{margin:var(--gap) var(--gutter) 0;padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
+.films-sec{margin:var(--gap) var(--gutter) 0;padding:clamp(24px,2.6vw,36px) 0 clamp(56px,7vw,104px);border-top:1px solid var(--ink)}
 .films{--g:clamp(8px,.9vw,12px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,3.4vw,44px) var(--g);margin-top:clamp(24px,3vw,40px)}
 .film video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:var(--ink)}
 .film figcaption{margin-top:12px;font-size:15px;line-height:1.45;color:var(--ink-2)}
 .film b{font-weight:600;color:var(--ink);margin-right:6px}
-.media-fine{margin-top:clamp(28px,3.4vw,44px)}
+.credits{margin:0 var(--gutter);padding:clamp(24px,2.6vw,36px) 0 var(--gap);border-top:1px solid var(--ink)}
+.credits dl{margin:clamp(16px,2vw,24px) 0 0;max-width:760px}
+.credits dl>div{display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:4px 24px;padding:13px 0;border-bottom:1px solid var(--hair);font-size:1rem;line-height:1.45}
+.credits dt{color:var(--ink-2)}
+.credits dd{margin:0}
+.credits a{font-weight:600}
+.credits a:hover{color:var(--deep)}
 .media-press p a{color:var(--paper)}
 .media-press p a:hover{color:var(--orange)}
 .soon{min-height:56svh}
@@ -582,6 +588,7 @@ html:has(.lightbox[open]){overflow:hidden}
 @media (max-width:700px){
   .shots .land{grid-column:1 / -1}
   .films{grid-template-columns:minmax(0,1fr)}
+  .credits dl>div{grid-template-columns:minmax(0,1fr)}
   .lb-stage{padding:68px 0 6px}
   .lb-stage img{max-height:calc(100dvh - 190px)}
   .lb-bar{min-height:104px;align-content:start;padding-right:132px}
